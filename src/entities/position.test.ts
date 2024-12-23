@@ -1,4 +1,4 @@
-import { Percent, Token } from '@storyhunt/core'
+import { Percent, Token } from '@storyhunt/sdk-core'
 import JSBI from 'jsbi'
 import { FeeAmount, TICK_SPACINGS } from '../constants'
 import { encodeSqrtRatioX96 } from '../utils/encodeSqrtRatioX96'
@@ -8,7 +8,7 @@ import { Pool } from './pool'
 import { Position } from './position'
 
 describe('Position', () => {
-  const USDC = new Token(1516, '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', 6, 'USDC', 'USD Coin')
+  const USDC = new Token(1516, '0xF1815bd50389c46847f0Bda824eC8da914045D14', 6, 'USDC', 'USDC')
   const DAI = new Token(1516, '0x6B175474E89094C44Da98b954EedeAC495271d0F', 18, 'DAI', 'DAI Stablecoin')
   const POOL_SQRT_RATIO_START = encodeSqrtRatioX96(100e6, 100e18)
   const POOL_TICK_CURRENT = TickMath.getTickAtSqrtRatio(POOL_SQRT_RATIO_START)

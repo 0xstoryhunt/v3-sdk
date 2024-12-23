@@ -1,4 +1,4 @@
-import { BigintIsh, Token } from '@storyhunt/core'
+import { BigintIsh, Token } from '@storyhunt/sdk-core'
 import { Interface } from '@ethersproject/abi'
 import ISelfPermit from './interfaces/ISelfPermit.json'
 import { toHex } from './utils'

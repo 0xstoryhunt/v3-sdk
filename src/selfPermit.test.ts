@@ -1,4 +1,4 @@
-import { Token } from '@storyhunt/core'
+import { Token } from '@storyhunt/sdk-core'
 import JSBI from 'jsbi'
 import { AllowedPermitArguments, SelfPermit, StandardPermitArguments } from './selfPermit'
 

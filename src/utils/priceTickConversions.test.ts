@@ -1,4 +1,4 @@
-import { Price, Token } from '@storyhunt/core'
+import { Price, Token } from '@storyhunt/sdk-core'
 import { tickToPrice } from './index'
 import { priceToClosestTick } from './priceTickConversions'
 

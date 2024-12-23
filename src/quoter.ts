@@ -1,5 +1,5 @@
 import { Interface } from '@ethersproject/abi'
-import { BigintIsh, Currency, CurrencyAmount, TradeType } from '@storyhunt/core'
+import { BigintIsh, Currency, CurrencyAmount, TradeType } from '@storyhunt/sdk-core'
 import { encodeRouteToPath, MethodParameters, toHex } from './utils'
 import IQuoter from './interfaces/IQuoter.json'
 import IQuoterV2 from './interfaces/IQuoterV2.json'

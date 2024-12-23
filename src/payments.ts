@@ -1,7 +1,7 @@
 import JSBI from 'jsbi'
 import { Interface } from '@ethersproject/abi'
 import IPeripheryPaymentsWithFee from './interfaces/IPeripheryPaymentsWithFee.json'
-import { Percent, Token, validateAndParseAddress } from '@storyhunt/core'
+import { Percent, Token, validateAndParseAddress } from '@storyhunt/sdk-core'
 import { toHex } from './utils/calldata'
 
 export interface FeeOptions {

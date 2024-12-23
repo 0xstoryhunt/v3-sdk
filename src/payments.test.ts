@@ -1,4 +1,4 @@
-import { Percent, Token } from '@storyhunt/core'
+import { Percent, Token } from '@storyhunt/sdk-core'
 import JSBI from 'jsbi'
 import { Payments } from './payments'
 

@@ -1,4 +1,4 @@
-import { CurrencyAmount, IP, Percent, Price, sqrt, Token, TradeType, WIP9 } from '@storyhunt/core'
+import { CurrencyAmount, IP, Percent, Price, sqrt, Token, TradeType, WIP9 } from '@storyhunt/sdk-core'
 import JSBI from 'jsbi'
 import { FeeAmount, TICK_SPACINGS } from '../constants'
 import { encodeSqrtRatioX96 } from '../utils/encodeSqrtRatioX96'

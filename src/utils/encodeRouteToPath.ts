@@ -1,5 +1,5 @@
 import { pack } from '@ethersproject/solidity'
-import { Currency, Token } from '@storyhunt/core'
+import { Currency, Token } from '@storyhunt/sdk-core'
 import { Pool } from '../entities/pool'
 import { Route } from '../entities/route'
 

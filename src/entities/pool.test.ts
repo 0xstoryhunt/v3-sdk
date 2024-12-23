@@ -1,4 +1,4 @@
-import { Token, CurrencyAmount, WIP9 } from '@storyhunt/core'
+import { Token, CurrencyAmount, WIP9 } from '@storyhunt/sdk-core'
 import { FeeAmount, TICK_SPACINGS } from '../constants'
 import { nearestUsableTick } from '../utils/nearestUsableTick'
 import { TickMath } from '../utils/tickMath'
@@ -10,7 +10,7 @@ import { NEGATIVE_ONE } from '../internalConstants'
 const ONE_IP = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18))
 
 describe('Pool', () => {
-  const USDC = new Token(1516, '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', 6, 'USDC', 'USD Coin')
+  const USDC = new Token(1516, '0xF1815bd50389c46847f0Bda824eC8da914045D14', 6, 'USDC', 'USDC')
   const DAI = new Token(1516, '0x6B175474E89094C44Da98b954EedeAC495271d0F', 18, 'DAI', 'DAI Stablecoin')
 
   describe('constructor', () => {
@@ -68,7 +68,7 @@ describe('Pool', () => {
   describe('#getAddress', () => {
     it('matches an example', () => {
       const result = Pool.getAddress(USDC, DAI, FeeAmount.LOW)
-      expect(result).toEqual('0x6c6Bc977E13Df9b0de53b251522280BB72383700')
+      expect(result).toEqual('0x63648AAcd4250cA16c2c3df5dEa409120821D5EC')
     })
   })
 

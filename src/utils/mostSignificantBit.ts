@@ -1,4 +1,4 @@
-import { MaxUint256 } from '@storyhunt/core'
+import { MaxUint256 } from '@storyhunt/sdk-core'
 import JSBI from 'jsbi'
 import invariant from 'tiny-invariant'
 import { ZERO } from '../internalConstants'
