@@ -96,7 +96,6 @@ export async function v3Swap(
       state.amountCalculated = JSBI.add(state.amountCalculated, JSBI.add(step.amountIn, step.feeAmount))
     }
 
-    // TODO
     if (JSBI.equal(state.sqrtPriceX96, step.sqrtPriceNextX96)) {
       // if the tick is initialized, run the tick transition
       if (step.initialized) {

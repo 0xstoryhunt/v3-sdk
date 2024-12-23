@@ -1,4 +1,4 @@
-import { IP, Token, WIP9 } from '@storyhunt/core'
+import { IP, Token, WIP9 } from '@storyhunt/sdk-core'
 import { FeeAmount } from '../constants'
 import { encodeSqrtRatioX96 } from '../utils/encodeSqrtRatioX96'
 import { TickMath } from '../utils/tickMath'
@@ -23,7 +23,7 @@ describe('Route', () => {
       expect(route.tokenPath).toEqual([token0, token1])
       expect(route.input).toEqual(token0)
       expect(route.output).toEqual(token1)
-      expect(route.chainId).toEqual(1)
+      expect(route.chainId).toEqual(1516)
     })
     it('should fail if the input is not in the first pool', () => {
       expect(() => new Route([pool_0_1], wip, token1)).toThrow()

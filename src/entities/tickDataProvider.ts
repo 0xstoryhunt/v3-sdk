@@ -1,4 +1,4 @@
-import { BigintIsh } from '@storyhunt/core'
+import { BigintIsh } from '@storyhunt/sdk-core'
 
 /**
  * Provides information about ticks

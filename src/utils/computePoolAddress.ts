@@ -1,7 +1,7 @@
 import { defaultAbiCoder } from '@ethersproject/abi'
 import { getCreate2Address } from '@ethersproject/address'
 import { keccak256 } from '@ethersproject/solidity'
-import { Token } from '@storyhunt/core'
+import { Token } from '@storyhunt/sdk-core'
 import { FeeAmount, poolInitCodeHash } from '../constants'
 
 /**

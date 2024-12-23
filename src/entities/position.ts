@@ -1,4 +1,4 @@
-import { BigintIsh, MaxUint256, Percent, Price, CurrencyAmount, Token } from '@storyhunt/core'
+import { BigintIsh, MaxUint256, Percent, Price, CurrencyAmount, Token } from '@storyhunt/sdk-core'
 import JSBI from 'jsbi'
 import invariant from 'tiny-invariant'
 import { ZERO } from '../internalConstants'

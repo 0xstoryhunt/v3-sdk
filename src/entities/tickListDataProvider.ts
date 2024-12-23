@@ -1,4 +1,4 @@
-import { BigintIsh } from '@storyhunt/core'
+import { BigintIsh } from '@storyhunt/sdk-core'
 import { TickList } from '../utils/tickList'
 import { Tick, TickConstructorArgs } from './tick'
 import { TickDataProvider } from './tickDataProvider'

@@ -1,6 +1,6 @@
 {
   "name": "@storyhunt/v3-sdk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An SDK for building applications on top of Storyhunt V3",
   "repository": "https://github.com/0xstoryhunt/v3-sdk.git",
   "keywords": [
@@ -28,7 +28,7 @@
   "dependencies": {
     "@ethersproject/abi": "^5.5.0",
     "@ethersproject/solidity": "^5.0.9",
-    "@storyhunt/core": "^1.0.0",
+    "@storyhunt/sdk-core": "^1.0.1",
     "tiny-invariant": "^1.1.0",
     "tiny-warning": "^1.0.3"
   },
