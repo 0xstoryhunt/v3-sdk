@@ -1,7 +1,7 @@
 export const FACTORY_ADDRESS = '0x354631ac8fdb2d5d66Ca5809b78BCE9dda1b7973'
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
-export const POOL_INIT_CODE_HASH = '0x5cea2eb9879ca53b37c03e28e630340a0e2b1575e3df2ba4b38a11af3946ac92'
+export const POOL_INIT_CODE_HASH = '0x5c1ebb91ef1669cb3e664cbf78650858b19d8a4247ca18abab152d5d4f1604db'
 
 export function poolInitCodeHash(): string {
   return POOL_INIT_CODE_HASH
