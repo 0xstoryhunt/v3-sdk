@@ -1,7 +1,7 @@
 import { BigintIsh, CurrencyAmount, Price, Token } from '@storyhunt/sdk-core'
 import JSBI from 'jsbi'
 import invariant from 'tiny-invariant'
-import { FACTORY_ADDRESS, FeeAmount, TICK_SPACINGS } from '../constants'
+import { DEPLOYER_ADDRESS, FeeAmount, TICK_SPACINGS } from '../constants'
 import { NEGATIVE_ONE, Q192 } from '../internalConstants'
 import { computePoolAddress } from '../utils/computePoolAddress'
 import { v3Swap } from '../utils/v3swap'
@@ -35,10 +35,10 @@ export class Pool {
     tokenB: Token,
     fee: FeeAmount,
     initCodeHashManualOverride?: string,
-    factoryAddressOverride?: string
+    deployerAddressOverride?: string
   ): string {
     return computePoolAddress({
-      factoryAddress: factoryAddressOverride ?? FACTORY_ADDRESS,
+      deployerAddress: deployerAddressOverride ?? DEPLOYER_ADDRESS,
       fee,
       tokenA,
       tokenB,
