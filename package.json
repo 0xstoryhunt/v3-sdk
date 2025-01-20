@@ -1,6 +1,6 @@
 {
   "name": "@storyhunt/v3-sdk",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "An SDK for building applications on top of Storyhunt V3",
   "repository": "https://github.com/0xstoryhunt/v3-sdk.git",
   "keywords": [
