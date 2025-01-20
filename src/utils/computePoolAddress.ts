@@ -15,13 +15,13 @@ import { FeeAmount, poolInitCodeHash } from '../constants'
  * @returns The pool address
  */
 export function computePoolAddress({
-  factoryAddress,
+  deployerAddress,
   tokenA,
   tokenB,
   fee,
   initCodeHashManualOverride
 }: {
-  factoryAddress: string
+  deployerAddress: string
   tokenA: Token
   tokenB: Token
   fee: FeeAmount
@@ -34,5 +34,5 @@ export function computePoolAddress({
   )
   const initCodeHash = initCodeHashManualOverride ?? poolInitCodeHash()
 
-  return getCreate2Address(factoryAddress, salt, initCodeHash)
+  return getCreate2Address(deployerAddress, salt, initCodeHash)
 }
