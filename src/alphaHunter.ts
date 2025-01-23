@@ -86,7 +86,7 @@ export abstract class AlphaHunterV3 {
       })
     )
 
-    let value: Hex = toHex(0)
+    let value: string = toHex(0)
 
     if (options.useNative) {
           const wrapped = options.useNative.wrapped
