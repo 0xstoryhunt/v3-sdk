@@ -64,3 +64,9 @@ jspm_packages/
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# yarn lockfile
+yarn.lock
+
+# .ds_store files
+.DS_Store

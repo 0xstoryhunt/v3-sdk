@@ -20,7 +20,7 @@ export interface MethodParameters {
  * @param bigintIsh
  * @returns The hex encoded calldata
  */
-export function toHex(bigintIsh: BigintIsh) {
+export function toHex(bigintIsh: BigintIsh) : `0x${string}` {
   const bigInt = JSBI.BigInt(bigintIsh)
   let hex = bigInt.toString(16)
   if (hex.length % 2 !== 0) {
