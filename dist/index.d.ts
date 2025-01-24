@@ -3,6 +3,7 @@ export * from './utils';
 export * from './constants';
 export * from './multicall';
 export * from './nonfungiblePositionManager';
+export * from './alphaHunter';
 export * from './payments';
 export * from './quoter';
 export * from './selfPermit';

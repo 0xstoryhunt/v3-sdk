@@ -105,7 +105,7 @@ export declare abstract class AlphaHunterV3 {
         calldata: string;
         value: string;
     };
-    static encodeHarvest(options: HarvestOptions): any[];
+    static encodeHarvest(options: HarvestOptions): string[];
     static withdrawCallParameters(options: WidthDrawOptions): {
         calldata: string;
         value: string;

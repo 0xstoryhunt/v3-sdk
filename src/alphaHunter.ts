@@ -1,25 +1,22 @@
-import { BigintIsh, CurrencyAmount,  Token, validateAndParseAddress } from '@storyhunt/sdk-core'
+import { BigintIsh, CurrencyAmount, Token, validateAndParseAddress } from '@storyhunt/sdk-core'
 import invariant from 'tiny-invariant'
 import { ADDRESS_ZERO } from './constants'
 import { Position } from './entities'
 import { Multicall } from './multicall'
 import alphaHunterV3Abi from './interfaces/IAlphaHunterV3.json'
 import { ONE, ZERO } from './internalConstants'
-
 import {
-    type AddLiquidityOptions,
-    isMint,
-    CollectOptions,
-    MaxUint128,
-    type RemoveLiquidityOptions,
-  } from './nonfungiblePositionManager'
+  AddLiquidityOptions,
+  isMint,
+  CollectOptions,
+  MaxUint128,
+  RemoveLiquidityOptions
+} from './nonfungiblePositionManager'
 import { Payments } from './payments'
 import { SelfPermit } from './selfPermit'
-import { encodeFunctionData, Hex } from 'viem'
 import { MethodParameters, toHex } from './utils'
 import { Interface } from '@ethersproject/abi'
 import JSBI from 'jsbi'
-
 
 interface WidthDrawOptions {
   tokenId: BigintIsh
@@ -70,42 +67,37 @@ export abstract class AlphaHunterV3 {
 
     // increase
     calldatas.push(
-      encodeFunctionData({
-        abi: AlphaHunterV3.ABI as any,
-        functionName: 'increaseLiquidity',
-        args: [
-          {
-            tokenId: toHex(options.tokenId),
-            amount0Desired,
-            amount1Desired,
-            amount0Min,
-            amount1Min,
-            deadline,
-          },
-        ],
-      })
+      AlphaHunterV3.INTERFACE.encodeFunctionData('increaseLiquidity', [
+        {
+          tokenId: toHex(options.tokenId),
+          amount0Desired: amount0Desired,
+          amount1Desired: amount1Desired,
+          amount0Min,
+          amount1Min,
+          deadline
+        }
+      ])
     )
 
     let value: string = toHex(0)
 
     if (options.useNative) {
-          const wrapped = options.useNative.wrapped
-          invariant(position.pool.token0.equals(wrapped) || position.pool.token1.equals(wrapped), 'NO_WIP')
-    
-          const wrappedValue = position.pool.token0.equals(wrapped) ? amount0Desired : amount1Desired
-    
-          // we only need to refund if we're actually sending IP
-          if (JSBI.greaterThan(wrappedValue, ZERO)) {
-            calldatas.push(Payments.encodeRefundIP())
-          }
-    
-          value = toHex(wrappedValue)
-        }
-    
+      const wrapped = options.useNative.wrapped
+      invariant(position.pool.token0.equals(wrapped) || position.pool.token1.equals(wrapped), 'NO_WIP')
+
+      const wrappedValue = position.pool.token0.equals(wrapped) ? amount0Desired : amount1Desired
+
+      // we only need to refund if we're actually sending IP
+      if (JSBI.greaterThan(wrappedValue, ZERO)) {
+        calldatas.push(Payments.encodeRefundIP())
+      }
+
+      value = toHex(wrappedValue)
+    }
 
     return {
       calldata: Multicall.encodeMulticall(calldatas),
-      value,
+      value
     }
   }
 
@@ -120,36 +112,31 @@ export abstract class AlphaHunterV3 {
 
     const recipient = validateAndParseAddress(options.recipient)
 
-    // collect
     calldatas.push(
-      encodeFunctionData({
-        abi: AlphaHunterV3.ABI as any,
-        functionName: 'collect',
-        args: [
-          {
-            tokenId,
-            recipient: involvesIP ? ADDRESS_ZERO : recipient,
-            amount0Max: MaxUint128,
-            amount1Max: MaxUint128,
-          },
-        ],
-      })
+      AlphaHunterV3.INTERFACE.encodeFunctionData('collect', [
+        {
+          tokenId,
+          recipient: involvesIP ? ADDRESS_ZERO : recipient,
+          amount0Max: MaxUint128,
+          amount1Max: MaxUint128
+        }
+      ])
     )
 
     if (involvesIP) {
-        const IPAmount = options.expectedCurrencyOwed0.currency.isNative
-          ? options.expectedCurrencyOwed0.quotient
-          : options.expectedCurrencyOwed1.quotient
-        const token = options.expectedCurrencyOwed0.currency.isNative
-          ? (options.expectedCurrencyOwed1.currency as Token)
-          : (options.expectedCurrencyOwed0.currency as Token)
-        const tokenAmount = options.expectedCurrencyOwed0.currency.isNative
-          ? options.expectedCurrencyOwed1.quotient
-          : options.expectedCurrencyOwed0.quotient
-  
-        calldatas.push(Payments.encodeUnwrapWIP9(IPAmount, recipient))
-        calldatas.push(Payments.encodeSweepToken(token, tokenAmount, recipient))
-      }
+      const IPAmount = options.expectedCurrencyOwed0.currency.isNative
+        ? options.expectedCurrencyOwed0.quotient
+        : options.expectedCurrencyOwed1.quotient
+      const token = options.expectedCurrencyOwed0.currency.isNative
+        ? (options.expectedCurrencyOwed1.currency as Token)
+        : (options.expectedCurrencyOwed0.currency as Token)
+      const tokenAmount = options.expectedCurrencyOwed0.currency.isNative
+        ? options.expectedCurrencyOwed1.quotient
+        : options.expectedCurrencyOwed0.quotient
+
+      calldatas.push(Payments.encodeUnwrapWIP9(IPAmount, recipient))
+      calldatas.push(Payments.encodeSweepToken(token, tokenAmount, recipient))
+    }
 
     return calldatas
   }
@@ -159,7 +146,7 @@ export abstract class AlphaHunterV3 {
 
     return {
       calldata: Multicall.encodeMulticall(calldatas),
-      value: toHex(0),
+      value: toHex(0)
     }
   }
 
@@ -174,7 +161,7 @@ export abstract class AlphaHunterV3 {
       pool: position.pool,
       liquidity: options.liquidityPercentage.multiply(position.liquidity).quotient,
       tickLower: position.tickLower,
-      tickUpper: position.tickUpper,
+      tickUpper: position.tickUpper
     })
     invariant(partialPosition.liquidity > ZERO, 'ZERO_LIQUIDITY')
 
@@ -184,34 +171,29 @@ export abstract class AlphaHunterV3 {
     )
 
     if (options.permit) {
-      throw new Error('NOT_IMPLEMENTED')
-      // calldatas.push(
-      //   AlphaHunterV3.INTERFACE.encodeFunctionData('permit', [
-      //     validateAndParseAddress(options.permit.spender),
-      //     tokenId,
-      //     toHex(options.permit.deadline),
-      //     options.permit.v,
-      //     options.permit.r,
-      //     options.permit.s,
-      //   ])
-      // )
+      calldatas.push(
+        AlphaHunterV3.INTERFACE.encodeFunctionData('permit', [
+          validateAndParseAddress(options.permit.spender),
+          tokenId,
+          toHex(options.permit.deadline),
+          options.permit.v,
+          options.permit.r,
+          options.permit.s
+        ])
+      )
     }
 
     // remove liquidity
     calldatas.push(
-      encodeFunctionData({
-        abi: AlphaHunterV3.ABI as any,
-        functionName: 'decreaseLiquidity',
-        args: [
-          {
-            tokenId,
-            liquidity: partialPosition.liquidity,
-            amount0Min,
-            amount1Min,
-            deadline,
-          },
-        ],
-      })
+      AlphaHunterV3.INTERFACE.encodeFunctionData('decreaseLiquidity', [
+        {
+          tokenId,
+          liquidity: partialPosition.liquidity,
+          amount0Min: amount0Min,
+          amount1Min: amount1Min,
+          deadline
+        }
+      ])
     )
 
     const { expectedCurrencyOwed0, expectedCurrencyOwed1, ...rest } = options.collectOptions
@@ -225,33 +207,25 @@ export abstract class AlphaHunterV3 {
         expectedCurrencyOwed1: expectedCurrencyOwed1.add(
           CurrencyAmount.fromRawAmount(expectedCurrencyOwed1.currency, amount1Min)
         ),
-        ...rest,
+        ...rest
       })
     )
 
-    if (rest?.recipient) {
-      if (options.liquidityPercentage.equalTo(ONE)) {
-        calldatas.push(
-          encodeFunctionData({
-            abi: AlphaHunterV3.ABI as any,
-            functionName: 'withdraw',
-            args: [tokenId, validateAndParseAddress(rest?.recipient)],
-          })
-        )
-      } else {
-        calldatas.push(
-          encodeFunctionData({
-            abi: AlphaHunterV3.ABI as any,
-            functionName: 'harvest',
-            args: [tokenId, validateAndParseAddress(rest?.recipient)],
-          })
-        )
-      }
-    }
+    // if (rest?.recipient) {
+    //   if (options.liquidityPercentage.equalTo(ONE)) {
+    //     calldatas.push(
+    //       AlphaHunterV3.INTERFACE.encodeFunctionData('withdraw',[tokenId, validateAndParseAddress(rest?.recipient)])
+    //     )
+    //   } else {
+    //     calldatas.push(
+    //       AlphaHunterV3.INTERFACE.encodeFunctionData('harvest',[tokenId, validateAndParseAddress(rest?.recipient)])
+    //     )
+    //   }
+    // }
 
     if (options.liquidityPercentage.equalTo(ONE)) {
       if (options.burnToken) {
-        calldatas.push(encodeFunctionData({ abi: AlphaHunterV3.ABI as any, functionName: 'burn', args: [tokenId] }))
+        calldatas.push(AlphaHunterV3.INTERFACE.encodeFunctionData('burn',[tokenId]))
       }
     } else {
       invariant(options.burnToken !== true, 'CANNOT_BURN')
@@ -259,42 +233,38 @@ export abstract class AlphaHunterV3 {
 
     return {
       calldata: Multicall.encodeMulticall(calldatas),
-      value: toHex(0),
+      value: toHex(0)
     }
   }
 
   // public static updateCallParameters() {}
 
   public static harvestCallParameters(options: HarvestOptions) {
-    const calldatas: Hex[] = this.encodeHarvest(options)
+    const calldatas: string[] = this.encodeHarvest(options)
 
     return {
       calldata: Multicall.encodeMulticall(calldatas),
-      value: toHex(0),
+      value: toHex(0)
     }
   }
 
   public static batchHarvestCallParameters(options: HarvestOptions[]) {
-    const calldatas: Hex[] = options.map((option) => this.encodeHarvest(option)).flat()
+    const calldatas: string[] = options.map(option => this.encodeHarvest(option)).flat()
 
     return {
       calldata: Multicall.encodeMulticall(calldatas),
-      value: toHex(0),
+      value: toHex(0)
     }
   }
 
   public static encodeHarvest(options: HarvestOptions) {
     const { tokenId, to } = options
 
-    const calldatas: Hex[] = []
+    const calldatas: string[] = []
 
-    // harvest pendingCake
+    // harvest pendingHunt
     calldatas.push(
-      encodeFunctionData({
-        abi: AlphaHunterV3.ABI as any,
-        functionName: 'harvest',
-        args: [toHex(tokenId), validateAndParseAddress(to)],
-      })
+      AlphaHunterV3.INTERFACE.encodeFunctionData('harvest',[toHex(tokenId), validateAndParseAddress(to)])
     )
 
     return calldatas
@@ -303,20 +273,16 @@ export abstract class AlphaHunterV3 {
   public static withdrawCallParameters(options: WidthDrawOptions) {
     const { tokenId, to } = options
 
-    const calldatas: Hex[] = []
+    const calldatas: string[] = []
 
     // withdraw liquidity
     calldatas.push(
-      encodeFunctionData({
-        abi: AlphaHunterV3.ABI as any,
-        functionName: 'withdraw',
-        args: [toHex(tokenId), validateAndParseAddress(to)],
-      })
+      AlphaHunterV3.INTERFACE.encodeFunctionData('withdraw',[toHex(tokenId), validateAndParseAddress(to)])
     )
 
     return {
       calldata: Multicall.encodeMulticall(calldatas),
-      value: toHex(0),
+      value: toHex(0)
     }
   }
 }
