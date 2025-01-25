@@ -1,6 +1,7 @@
-import { MaxUint256, sqrt, Price, CurrencyAmount, Percent, TradeType, Fraction, sortedInsert, validateAndParseAddress } from '@storyhunt/sdk-core';
+import { ChainId, MaxUint256, sqrt, Price, CurrencyAmount, Percent, TradeType, Fraction, sortedInsert, validateAndParseAddress } from '@storyhunt/sdk-core';
 import JSBI from 'jsbi';
 import invariant from 'tiny-invariant';
+import DEFAULT_ADDRESS_LIST from '@storyhunt/default-list/build/storyhunt-default.constantlist.json';
 import { defaultAbiCoder, Interface } from '@ethersproject/abi';
 import { getCreate2Address } from '@ethersproject/address';
 import { keccak256, pack } from '@ethersproject/solidity';
@@ -405,8 +406,8 @@ function _unsupportedIterableToArray(r, a) {
 }
 
 var _TICK_SPACINGS;
-var FACTORY_ADDRESS = '0x354631ac8fdb2d5d66Ca5809b78BCE9dda1b7973';
-var DEPLOYER_ADDRESS = '0x0318592f530Ac3C13CD26c197C68b4475e94852d';
+var FACTORY_ADDRESS = DEFAULT_ADDRESS_LIST.constants[ChainId.ODYSSEY].V3_FACTORY_CONTRACT.address;
+var DEPLOYER_ADDRESS = DEFAULT_ADDRESS_LIST.constants[ChainId.ODYSSEY].V3_POOL_DEPLOYER.address;
 var ADDRESS_ZERO = '0x0000000000000000000000000000000000000000';
 var POOL_INIT_CODE_HASH = '0x5c1ebb91ef1669cb3e664cbf78650858b19d8a4247ca18abab152d5d4f1604db';
 /**
