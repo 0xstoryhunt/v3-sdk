@@ -6310,8 +6310,8 @@ var AlphaHunterV3 = /*#__PURE__*/function () {
     // increase
     calldatas.push(AlphaHunterV3.INTERFACE.encodeFunctionData('increaseLiquidity', [{
       tokenId: toHex(options.tokenId),
-      amount0Desired: amount0Desired,
-      amount1Desired: amount1Desired,
+      amount0Desired: toHex(amount0Desired),
+      amount1Desired: toHex(amount1Desired),
       amount0Min: amount0Min,
       amount1Min: amount1Min,
       deadline: deadline
@@ -6383,9 +6383,9 @@ var AlphaHunterV3 = /*#__PURE__*/function () {
     // remove liquidity
     calldatas.push(AlphaHunterV3.INTERFACE.encodeFunctionData('decreaseLiquidity', [{
       tokenId: tokenId,
-      liquidity: partialPosition.liquidity,
-      amount0Min: amount0Min,
-      amount1Min: amount1Min,
+      liquidity: toHex(partialPosition.liquidity),
+      amount0Min: toHex(amount0Min),
+      amount1Min: toHex(amount1Min),
       deadline: deadline
     }]));
     var _options$collectOptio = options.collectOptions,
