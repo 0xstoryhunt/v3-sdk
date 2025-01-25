@@ -1,5 +1,5 @@
-export declare const FACTORY_ADDRESS = "0x354631ac8fdb2d5d66Ca5809b78BCE9dda1b7973";
-export declare const DEPLOYER_ADDRESS = "0x0318592f530Ac3C13CD26c197C68b4475e94852d";
+export declare const FACTORY_ADDRESS: string;
+export declare const DEPLOYER_ADDRESS: string;
 export declare const ADDRESS_ZERO = "0x0000000000000000000000000000000000000000";
 export declare const POOL_INIT_CODE_HASH = "0x5c1ebb91ef1669cb3e664cbf78650858b19d8a4247ca18abab152d5d4f1604db";
 /**
