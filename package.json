@@ -28,7 +28,7 @@
   "dependencies": {
     "@ethersproject/abi": "^5.5.0",
     "@ethersproject/solidity": "^5.0.9",
-    "@storyhunt/default-list": "^1.0.3",
+    "@storyhunt/default-list": "^1.0.4",
     "@storyhunt/sdk-core": "^1.0.1",
     "tiny-invariant": "^1.1.0",
     "tiny-warning": "^1.0.3"
