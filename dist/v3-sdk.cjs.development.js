@@ -7,6 +7,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 var sdkCore = require('@storyhunt/sdk-core');
 var JSBI = _interopDefault(require('jsbi'));
 var invariant = _interopDefault(require('tiny-invariant'));
+var DEFAULT_ADDRESS_LIST = _interopDefault(require('@storyhunt/default-list/build/storyhunt-default.constantlist.json'));
 var abi$8 = require('@ethersproject/abi');
 var address = require('@ethersproject/address');
 var solidity = require('@ethersproject/solidity');
@@ -411,8 +412,8 @@ function _unsupportedIterableToArray(r, a) {
 }
 
 var _TICK_SPACINGS;
-var FACTORY_ADDRESS = '0x354631ac8fdb2d5d66Ca5809b78BCE9dda1b7973';
-var DEPLOYER_ADDRESS = '0x0318592f530Ac3C13CD26c197C68b4475e94852d';
+var FACTORY_ADDRESS = DEFAULT_ADDRESS_LIST.constants[sdkCore.ChainId.ODYSSEY].V3_FACTORY_CONTRACT.address;
+var DEPLOYER_ADDRESS = DEFAULT_ADDRESS_LIST.constants[sdkCore.ChainId.ODYSSEY].V3_POOL_DEPLOYER.address;
 var ADDRESS_ZERO = '0x0000000000000000000000000000000000000000';
 var POOL_INIT_CODE_HASH = '0x5c1ebb91ef1669cb3e664cbf78650858b19d8a4247ca18abab152d5d4f1604db';
 (function (FeeAmount) {
@@ -6309,8 +6310,8 @@ var AlphaHunterV3 = /*#__PURE__*/function () {
     // increase
     calldatas.push(AlphaHunterV3.INTERFACE.encodeFunctionData('increaseLiquidity', [{
       tokenId: toHex(options.tokenId),
-      amount0Desired: amount0Desired,
-      amount1Desired: amount1Desired,
+      amount0Desired: toHex(amount0Desired),
+      amount1Desired: toHex(amount1Desired),
       amount0Min: amount0Min,
       amount1Min: amount1Min,
       deadline: deadline
@@ -6382,9 +6383,9 @@ var AlphaHunterV3 = /*#__PURE__*/function () {
     // remove liquidity
     calldatas.push(AlphaHunterV3.INTERFACE.encodeFunctionData('decreaseLiquidity', [{
       tokenId: tokenId,
-      liquidity: partialPosition.liquidity,
-      amount0Min: amount0Min,
-      amount1Min: amount1Min,
+      liquidity: toHex(partialPosition.liquidity),
+      amount0Min: toHex(amount0Min),
+      amount1Min: toHex(amount1Min),
       deadline: deadline
     }]));
     var _options$collectOptio = options.collectOptions,
