@@ -1,7 +1,7 @@
 export declare const FACTORY_ADDRESS: string;
 export declare const DEPLOYER_ADDRESS: string;
 export declare const ADDRESS_ZERO = "0x0000000000000000000000000000000000000000";
-export declare const POOL_INIT_CODE_HASH = "0x5c1ebb91ef1669cb3e664cbf78650858b19d8a4247ca18abab152d5d4f1604db";
+export declare const POOL_INIT_CODE_HASH: string;
 /**
  * The default factory enabled fee amounts, denominated in hundredths of bips.
  */
