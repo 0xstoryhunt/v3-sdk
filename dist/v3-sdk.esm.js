@@ -6372,9 +6372,11 @@ var AlphaHunterV3 = /*#__PURE__*/function () {
     });
     !(partialPosition.liquidity > ZERO) ? process.env.NODE_ENV !== "production" ? invariant(false, 'ZERO_LIQUIDITY') : invariant(false) : void 0;
     // slippage-adjusted underlying amounts
-    var _partialPosition$burn = partialPosition.burnAmountsWithSlippage(options.slippageTolerance),
-      amount0Min = _partialPosition$burn.amount0,
-      amount1Min = _partialPosition$burn.amount1;
+    // const { amount0: amount0Min, amount1: amount1Min } = partialPosition.burnAmountsWithSlippage(
+    //   options.slippageTolerance
+    // )
+    var amount0Min = JSBI.BigInt(0);
+    var amount1Min = JSBI.BigInt(0);
     if (options.permit) {
       calldatas.push(AlphaHunterV3.INTERFACE.encodeFunctionData('permit', [validateAndParseAddress(options.permit.spender), tokenId, toHex(options.permit.deadline), options.permit.v, options.permit.r, options.permit.s]));
     }
