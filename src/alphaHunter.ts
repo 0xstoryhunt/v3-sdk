@@ -166,9 +166,12 @@ export abstract class AlphaHunterV3 {
     invariant(partialPosition.liquidity > ZERO, 'ZERO_LIQUIDITY')
 
     // slippage-adjusted underlying amounts
-    const { amount0: amount0Min, amount1: amount1Min } = partialPosition.burnAmountsWithSlippage(
-      options.slippageTolerance
-    )
+    // const { amount0: amount0Min, amount1: amount1Min } = partialPosition.burnAmountsWithSlippage(
+    //   options.slippageTolerance
+    // )
+
+    const amount0Min = JSBI.BigInt(0)
+    const amount1Min = JSBI.BigInt(0)
 
     if (options.permit) {
       calldatas.push(
@@ -225,7 +228,7 @@ export abstract class AlphaHunterV3 {
 
     if (options.liquidityPercentage.equalTo(ONE)) {
       if (options.burnToken) {
-        calldatas.push(AlphaHunterV3.INTERFACE.encodeFunctionData('burn',[tokenId]))
+        calldatas.push(AlphaHunterV3.INTERFACE.encodeFunctionData('burn', [tokenId]))
       }
     } else {
       invariant(options.burnToken !== true, 'CANNOT_BURN')
@@ -263,9 +266,7 @@ export abstract class AlphaHunterV3 {
     const calldatas: string[] = []
 
     // harvest pendingHunt
-    calldatas.push(
-      AlphaHunterV3.INTERFACE.encodeFunctionData('harvest',[toHex(tokenId), validateAndParseAddress(to)])
-    )
+    calldatas.push(AlphaHunterV3.INTERFACE.encodeFunctionData('harvest', [toHex(tokenId), validateAndParseAddress(to)]))
 
     return calldatas
   }
@@ -277,7 +278,7 @@ export abstract class AlphaHunterV3 {
 
     // withdraw liquidity
     calldatas.push(
-      AlphaHunterV3.INTERFACE.encodeFunctionData('withdraw',[toHex(tokenId), validateAndParseAddress(to)])
+      AlphaHunterV3.INTERFACE.encodeFunctionData('withdraw', [toHex(tokenId), validateAndParseAddress(to)])
     )
 
     return {
