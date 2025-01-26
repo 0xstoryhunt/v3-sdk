@@ -70,8 +70,8 @@ export abstract class AlphaHunterV3 {
       AlphaHunterV3.INTERFACE.encodeFunctionData('increaseLiquidity', [
         {
           tokenId: toHex(options.tokenId),
-          amount0Desired: amount0Desired,
-          amount1Desired: amount1Desired,
+          amount0Desired: toHex(amount0Desired),
+          amount1Desired: toHex(amount1Desired),
           amount0Min,
           amount1Min,
           deadline
@@ -188,9 +188,9 @@ export abstract class AlphaHunterV3 {
       AlphaHunterV3.INTERFACE.encodeFunctionData('decreaseLiquidity', [
         {
           tokenId,
-          liquidity: partialPosition.liquidity,
-          amount0Min: amount0Min,
-          amount1Min: amount1Min,
+          liquidity: toHex(partialPosition.liquidity),
+          amount0Min: toHex(amount0Min),
+          amount1Min: toHex(amount1Min),
           deadline
         }
       ])
