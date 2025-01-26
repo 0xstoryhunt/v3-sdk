@@ -186,18 +186,20 @@ export abstract class AlphaHunterV3 {
       )
     }
 
+    const params = {
+      tokenId,
+      liquidity: toHex(partialPosition.liquidity),
+      amount0Min: toHex(amount0Min),
+      amount1Min: toHex(amount1Min),
+      deadline
+    }
+
+    console.log(options);
+    console.log(position);
+    console.log(params);
+
     // remove liquidity
-    calldatas.push(
-      AlphaHunterV3.INTERFACE.encodeFunctionData('decreaseLiquidity', [
-        {
-          tokenId,
-          liquidity: toHex(partialPosition.liquidity),
-          amount0Min: toHex(amount0Min),
-          amount1Min: toHex(amount1Min),
-          deadline
-        }
-      ])
-    )
+    calldatas.push(AlphaHunterV3.INTERFACE.encodeFunctionData('decreaseLiquidity', [params]))
 
     const { expectedCurrencyOwed0, expectedCurrencyOwed1, ...rest } = options.collectOptions
     calldatas.push(
