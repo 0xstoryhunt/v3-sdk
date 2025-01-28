@@ -6374,20 +6374,26 @@ var AlphaHunterV3 = /*#__PURE__*/function () {
     });
     !(partialPosition.liquidity > ZERO) ?  invariant(false, 'ZERO_LIQUIDITY')  : void 0;
     // slippage-adjusted underlying amounts
-    var _partialPosition$burn = partialPosition.burnAmountsWithSlippage(options.slippageTolerance),
-      amount0Min = _partialPosition$burn.amount0,
-      amount1Min = _partialPosition$burn.amount1;
+    // const { amount0: amount0Min, amount1: amount1Min } = partialPosition.burnAmountsWithSlippage(
+    //   options.slippageTolerance
+    // )
+    var amount0Min = JSBI.BigInt(0);
+    var amount1Min = JSBI.BigInt(0);
     if (options.permit) {
       calldatas.push(AlphaHunterV3.INTERFACE.encodeFunctionData('permit', [sdkCore.validateAndParseAddress(options.permit.spender), tokenId, toHex(options.permit.deadline), options.permit.v, options.permit.r, options.permit.s]));
     }
-    // remove liquidity
-    calldatas.push(AlphaHunterV3.INTERFACE.encodeFunctionData('decreaseLiquidity', [{
+    var params = {
       tokenId: tokenId,
       liquidity: toHex(partialPosition.liquidity),
       amount0Min: toHex(amount0Min),
       amount1Min: toHex(amount1Min),
       deadline: deadline
-    }]));
+    };
+    console.log(options);
+    console.log(position);
+    console.log(params);
+    // remove liquidity
+    calldatas.push(AlphaHunterV3.INTERFACE.encodeFunctionData('decreaseLiquidity', [params]));
     var _options$collectOptio = options.collectOptions,
       expectedCurrencyOwed0 = _options$collectOptio.expectedCurrencyOwed0,
       expectedCurrencyOwed1 = _options$collectOptio.expectedCurrencyOwed1,
