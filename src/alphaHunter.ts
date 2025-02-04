@@ -165,13 +165,10 @@ export abstract class AlphaHunterV3 {
     })
     invariant(partialPosition.liquidity > ZERO, 'ZERO_LIQUIDITY')
 
-    // slippage-adjusted underlying amounts
-    // const { amount0: amount0Min, amount1: amount1Min } = partialPosition.burnAmountsWithSlippage(
-    //   options.slippageTolerance
-    // )
-
-    const amount0Min = JSBI.BigInt(0)
-    const amount1Min = JSBI.BigInt(0)
+    //slippage-adjusted underlying amounts
+    const { amount0: amount0Min, amount1: amount1Min } = partialPosition.burnAmountsWithSlippage(
+      options.slippageTolerance
+    )
 
     if (options.permit) {
       calldatas.push(
@@ -193,10 +190,6 @@ export abstract class AlphaHunterV3 {
       amount1Min: toHex(amount1Min),
       deadline
     }
-
-    console.log(options);
-    console.log(position);
-    console.log(params);
 
     // remove liquidity
     calldatas.push(AlphaHunterV3.INTERFACE.encodeFunctionData('decreaseLiquidity', [params]))
