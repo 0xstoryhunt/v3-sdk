@@ -16,7 +16,6 @@ import { Payments } from './payments'
 import { SelfPermit } from './selfPermit'
 import { MethodParameters, toHex } from './utils'
 import { Interface } from '@ethersproject/abi'
-import JSBI from 'jsbi'
 
 interface WidthDrawOptions {
   tokenId: BigintIsh
@@ -88,9 +87,9 @@ export abstract class AlphaHunterV3 {
       const wrappedValue = position.pool.token0.equals(wrapped) ? amount0Desired : amount1Desired
 
       // we only need to refund if we're actually sending IP
-      if (JSBI.greaterThan(wrappedValue, ZERO)) {
-        calldatas.push(Payments.encodeRefundIP())
-      }
+      // if (JSBI.greaterThan(wrappedValue, ZERO)) {
+      //   calldatas.push(Payments.encodeRefundIP())
+      // }
 
       value = toHex(wrappedValue)
     }
