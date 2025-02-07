@@ -77,7 +77,7 @@ function _objectWithoutPropertiesLoose(r, e) {
   if (null == r) return {};
   var t = {};
   for (var n in r) if ({}.hasOwnProperty.call(r, n)) {
-    if (-1 !== e.indexOf(n)) continue;
+    if (e.includes(n)) continue;
     t[n] = r[n];
   }
   return t;
@@ -6320,9 +6320,9 @@ var AlphaHunterV3 = /*#__PURE__*/function () {
       !(position.pool.token0.equals(wrapped) || position.pool.token1.equals(wrapped)) ? process.env.NODE_ENV !== "production" ? invariant(false, 'NO_WIP') : invariant(false) : void 0;
       var wrappedValue = position.pool.token0.equals(wrapped) ? amount0Desired : amount1Desired;
       // we only need to refund if we're actually sending IP
-      if (JSBI.greaterThan(wrappedValue, ZERO)) {
-        calldatas.push(Payments.encodeRefundIP());
-      }
+      // if (JSBI.greaterThan(wrappedValue, ZERO)) {
+      //   calldatas.push(Payments.encodeRefundIP())
+      // }
       value = toHex(wrappedValue);
     }
     return {
@@ -6371,12 +6371,10 @@ var AlphaHunterV3 = /*#__PURE__*/function () {
       tickUpper: position.tickUpper
     });
     !(partialPosition.liquidity > ZERO) ? process.env.NODE_ENV !== "production" ? invariant(false, 'ZERO_LIQUIDITY') : invariant(false) : void 0;
-    // slippage-adjusted underlying amounts
-    // const { amount0: amount0Min, amount1: amount1Min } = partialPosition.burnAmountsWithSlippage(
-    //   options.slippageTolerance
-    // )
-    var amount0Min = JSBI.BigInt(0);
-    var amount1Min = JSBI.BigInt(0);
+    //slippage-adjusted underlying amounts
+    var _partialPosition$burn = partialPosition.burnAmountsWithSlippage(options.slippageTolerance),
+      amount0Min = _partialPosition$burn.amount0,
+      amount1Min = _partialPosition$burn.amount1;
     if (options.permit) {
       calldatas.push(AlphaHunterV3.INTERFACE.encodeFunctionData('permit', [validateAndParseAddress(options.permit.spender), tokenId, toHex(options.permit.deadline), options.permit.v, options.permit.r, options.permit.s]));
     }
@@ -6387,9 +6385,6 @@ var AlphaHunterV3 = /*#__PURE__*/function () {
       amount1Min: toHex(amount1Min),
       deadline: deadline
     };
-    console.log(options);
-    console.log(position);
-    console.log(params);
     // remove liquidity
     calldatas.push(AlphaHunterV3.INTERFACE.encodeFunctionData('decreaseLiquidity', [params]));
     var _options$collectOptio = options.collectOptions,
