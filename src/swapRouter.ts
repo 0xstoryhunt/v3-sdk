@@ -54,7 +54,7 @@ export abstract class SwapRouter {
   /**
    * Cannot be constructed.
    */
-  private constructor() {}
+  private constructor() { }
 
   /**
    * Produces the on-chain method name to call and the hex encoded parameters to pass as arguments for a given trade.
@@ -184,18 +184,49 @@ export abstract class SwapRouter {
       if (!!options.fee) {
         if (outputIsNative) {
           calldatas.push(Payments.encodeUnwrapWIP9(totalAmountOut.quotient, recipient, options.fee))
-        } else {
-          calldatas.push(
-            Payments.encodeSweepToken(
-              sampleTrade.outputAmount.currency.wrapped,
-              totalAmountOut.quotient,
-              recipient,
-              options.fee
-            )
-          )
         }
+        // else {
+        //   calldatas.push(
+        //     Payments.encodeSweepToken(
+        //       sampleTrade.outputAmount.currency.wrapped,
+        //       totalAmountOut.quotient,
+        //       recipient,
+        //       options.fee
+        //     )
+        //   )
+        // }
       } else {
         calldatas.push(Payments.encodeUnwrapWIP9(totalAmountOut.quotient, recipient))
+      }
+    }
+
+    for (const [i, trade] of trades.entries()) {
+      for (const { outputAmount } of trade.swaps) {
+        if (i !== 0) { // Is not the first token in trade
+          const isNative = trade.inputAmount.currency.isNative;
+          // const isWrapped = trade.inputAmount.currency.wrapped.address === IP.onChain(trade.inputAmount.currency.chainId).wrapped.address;
+
+          if (!isNative) {
+            if (!!options.fee) {
+              calldatas.push(
+                Payments.encodeSweepToken(
+                  trade.outputAmount.currency.wrapped,
+                  outputAmount.quotient,
+                  recipient,
+                  options.fee
+                )
+              )
+            } else {
+              calldatas.push(
+                Payments.encodeSweepToken(
+                  trade.outputAmount.currency.wrapped,
+                  outputAmount.quotient,
+                  recipient
+                )
+              )
+            }
+          }
+        }
       }
     }
 
