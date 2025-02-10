@@ -1,5 +1,5 @@
 import { Interface } from '@ethersproject/abi'
-import { BigintIsh, Currency, CurrencyAmount, Percent, TradeType, validateAndParseAddress } from '@storyhunt/sdk-core'
+import { BigintIsh, Currency, CurrencyAmount, Percent, Token, TradeType, validateAndParseAddress } from '@storyhunt/sdk-core'
 import invariant from 'tiny-invariant'
 import { Trade } from './entities/trade'
 import { ADDRESS_ZERO } from './constants'
@@ -9,6 +9,7 @@ import { MethodParameters, toHex } from './utils/calldata'
 import ISwapRouter from './interfaces/ISwapRouter.json'
 import { Multicall } from './multicall'
 import { FeeOptions, Payments } from './payments'
+import JSBI from 'jsbi'
 
 /**
  * Options for producing the arguments to send calls to the router.
@@ -54,7 +55,7 @@ export abstract class SwapRouter {
   /**
    * Cannot be constructed.
    */
-  private constructor() { }
+  private constructor() {}
 
   /**
    * Produces the on-chain method name to call and the hex encoded parameters to pass as arguments for a given trade.
@@ -200,34 +201,46 @@ export abstract class SwapRouter {
       }
     }
 
-    for (const [i, trade] of trades.entries()) {
-      for (const { outputAmount } of trade.swaps) {
-        if (i !== 0) { // Is not the first token in trade
-          const isNative = trade.inputAmount.currency.isNative;
-          // const isWrapped = trade.inputAmount.currency.wrapped.address === IP.onChain(trade.inputAmount.currency.chainId).wrapped.address;
-
+    const sweepableTokens = trades
+      .map((trade, index) => {
+        const tokens: {
+          token: Token
+          amount: JSBI
+        }[] = []
+        for (const { inputAmount, outputAmount } of trade.swaps) {
+          const isNative = trade.outputAmount.currency.isNative
           if (!isNative) {
-            if (!!options.fee) {
-              calldatas.push(
-                Payments.encodeSweepToken(
-                  trade.outputAmount.currency.wrapped,
-                  outputAmount.quotient,
-                  recipient,
-                  options.fee
-                )
-              )
-            } else {
-              calldatas.push(
-                Payments.encodeSweepToken(
-                  trade.outputAmount.currency.wrapped,
-                  outputAmount.quotient,
-                  recipient
-                )
-              )
+            if (tokens.map(({token}) => token.address).includes(trade.outputAmount.currency.wrapped.address)) {
+              if (sampleTrade.tradeType === TradeType.EXACT_INPUT) {
+                return;
+              } else {
+                const tokenIndex = tokens.findIndex(({token}) => token.address === trade.outputAmount.currency.wrapped.address)
+                tokens.splice(tokenIndex, 1)
+              }
             }
+
+            if (index === 0) {
+              tokens.push({
+                token: trade.inputAmount.currency.wrapped,
+                amount: inputAmount.quotient
+              })
+            }
+            tokens.push({
+              token: trade.outputAmount.currency.wrapped,
+              amount: outputAmount.quotient
+            })
           }
         }
-      }
+        return tokens
+      }).filter((tokens) => !!tokens).flat()
+
+      
+    for (const sweepableToken of sweepableTokens) {
+          if (!!options.fee) {
+            calldatas.push(Payments.encodeSweepToken(sweepableToken.token, sweepableToken.amount, recipient, options.fee))
+          } else {
+            calldatas.push(Payments.encodeSweepToken(sweepableToken.token, sweepableToken.amount, recipient))
+          }
     }
 
     // refund
