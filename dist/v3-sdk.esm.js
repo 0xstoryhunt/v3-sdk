@@ -3157,11 +3157,11 @@ var SwapRouter = /*#__PURE__*/function () {
     var deadline = toHex(options.deadline);
     for (var _iterator = _createForOfIteratorHelperLoose(trades), _step; !(_step = _iterator()).done;) {
       var trade = _step.value;
-      for (var _iterator2 = _createForOfIteratorHelperLoose(trade.swaps), _step2; !(_step2 = _iterator2()).done;) {
-        var _step2$value = _step2.value,
-          route = _step2$value.route,
-          inputAmount = _step2$value.inputAmount,
-          outputAmount = _step2$value.outputAmount;
+      for (var _iterator4 = _createForOfIteratorHelperLoose(trade.swaps), _step4; !(_step4 = _iterator4()).done;) {
+        var _step4$value = _step4.value,
+          route = _step4$value.route,
+          inputAmount = _step4$value.inputAmount,
+          outputAmount = _step4$value.outputAmount;
         var amountIn = toHex(trade.maximumAmountIn(options.slippageTolerance, inputAmount).quotient);
         var amountOut = toHex(trade.minimumAmountOut(options.slippageTolerance, outputAmount).quotient);
         // flag for whether the trade is single hop or not
@@ -3224,11 +3224,65 @@ var SwapRouter = /*#__PURE__*/function () {
       if (!!options.fee) {
         if (outputIsNative) {
           calldatas.push(Payments.encodeUnwrapWIP9(totalAmountOut.quotient, recipient, options.fee));
-        } else {
-          calldatas.push(Payments.encodeSweepToken(sampleTrade.outputAmount.currency.wrapped, totalAmountOut.quotient, recipient, options.fee));
         }
+        // else {
+        //   calldatas.push(
+        //     Payments.encodeSweepToken(
+        //       sampleTrade.outputAmount.currency.wrapped,
+        //       totalAmountOut.quotient,
+        //       recipient,
+        //       options.fee
+        //     )
+        //   )
+        // }
       } else {
         calldatas.push(Payments.encodeUnwrapWIP9(totalAmountOut.quotient, recipient));
+      }
+    }
+    var sweepableTokens = trades.map(function (trade, index) {
+      var tokens = [];
+      for (var _iterator2 = _createForOfIteratorHelperLoose(trade.swaps), _step2; !(_step2 = _iterator2()).done;) {
+        var _step2$value = _step2.value,
+          inputAmount = _step2$value.inputAmount,
+          outputAmount = _step2$value.outputAmount;
+        var isNative = trade.outputAmount.currency.isNative;
+        if (!isNative) {
+          if (tokens.map(function (_ref) {
+            var token = _ref.token;
+            return token.address;
+          }).includes(trade.outputAmount.currency.wrapped.address)) {
+            if (sampleTrade.tradeType === TradeType.EXACT_INPUT) {
+              return;
+            } else {
+              var tokenIndex = tokens.findIndex(function (_ref2) {
+                var token = _ref2.token;
+                return token.address === trade.outputAmount.currency.wrapped.address;
+              });
+              if (tokenIndex !== -1) tokens.splice(tokenIndex, 1);
+            }
+          }
+          if (index === 0) {
+            tokens.push({
+              token: trade.inputAmount.currency.wrapped,
+              amount: inputAmount.quotient
+            });
+          }
+          tokens.push({
+            token: trade.outputAmount.currency.wrapped,
+            amount: outputAmount.quotient
+          });
+        }
+      }
+      return tokens;
+    }).flat().filter(function (token) {
+      return !!token;
+    });
+    for (var _iterator3 = _createForOfIteratorHelperLoose(sweepableTokens), _step3; !(_step3 = _iterator3()).done;) {
+      var sweepableToken = _step3.value;
+      if (!!options.fee) {
+        calldatas.push(Payments.encodeSweepToken(sweepableToken.token, sweepableToken.amount, recipient, options.fee));
+      } else {
+        calldatas.push(Payments.encodeSweepToken(sweepableToken.token, sweepableToken.amount, recipient));
       }
     }
     // refund
