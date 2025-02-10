@@ -10,10 +10,10 @@ import { FeeAmount } from '../constants';
  * @param chainId
  * @returns The pool address
  */
-export declare function computePoolAddress({ tokenA, tokenB, fee, deployerAddressManualOverride, initCodeHashManualOverride }: {
+export declare function computePoolAddress({ tokenA, tokenB, fee, deployerAddress, initCodeHash }: {
     tokenA: Token;
     tokenB: Token;
     fee: FeeAmount;
-    deployerAddressManualOverride?: string;
-    initCodeHashManualOverride?: string;
+    deployerAddress: string;
+    initCodeHash: string;
 }): string;

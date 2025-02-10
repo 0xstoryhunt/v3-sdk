@@ -1,6 +1,6 @@
 import { BigintIsh, Token } from '@storyhunt/sdk-core'
 import { Interface } from '@ethersproject/abi'
-import ISelfPermit from './interfaces/ISelfPermit.json'
+import CONSTANTS from '@storyhunt/default-list/build/storyhunt-default.constantlist.json'
 import { toHex } from './utils'
 
 export interface StandardPermitArguments {
@@ -26,7 +26,7 @@ function isAllowedPermit(permitOptions: PermitOptions): permitOptions is Allowed
 }
 
 export abstract class SelfPermit {
-  public static INTERFACE: Interface = new Interface(ISelfPermit.abi)
+  public static INTERFACE: Interface = new Interface(CONSTANTS.constants.interfaces.SELF_PERMIT_CONTRACT.interface.abi)
 
   /**
    * Cannot be constructed.

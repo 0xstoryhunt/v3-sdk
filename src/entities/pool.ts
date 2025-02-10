@@ -34,15 +34,15 @@ export class Pool {
     tokenA: Token,
     tokenB: Token,
     fee: FeeAmount,
-    initCodeHashManualOverride?: string,
-    deployerAddressManualOverride?: string
+    initCodeHash: string,
+    deployerAddress: string
   ): string {
     return computePoolAddress({
       fee,
       tokenA,
       tokenB,
-      deployerAddressManualOverride,
-      initCodeHashManualOverride
+      deployerAddress,
+      initCodeHash
     })
   }
 

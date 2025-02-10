@@ -1,8 +1,9 @@
 import { Interface } from '@ethersproject/abi'
-import IMulticall from './interfaces/IMulticall.json'
+import CONSTANTS from '@storyhunt/default-list/build/storyhunt-default.constantlist.json'
 
 export abstract class Multicall {
-  public static INTERFACE: Interface = new Interface(IMulticall.abi)
+  //the encoding of the multicall function is used from either NFT manager or Swap router(essentially same)
+  public static INTERFACE: Interface = new Interface(CONSTANTS.constants.interfaces.NFT_POSITION_MANAGER_CONTRACT.interface.abi)
 
   /**
    * Cannot be constructed.

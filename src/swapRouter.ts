@@ -6,7 +6,7 @@ import { ADDRESS_ZERO } from './constants'
 import { PermitOptions, SelfPermit } from './selfPermit'
 import { encodeRouteToPath } from './utils'
 import { MethodParameters, toHex } from './utils/calldata'
-import ISwapRouter from './interfaces/ISwapRouter.json'
+import CONSTANTS from '@storyhunt/default-list/build/storyhunt-default.constantlist.json'
 import { Multicall } from './multicall'
 import { FeeOptions, Payments } from './payments'
 
@@ -49,7 +49,7 @@ export interface SwapOptions {
  * Represents the StoryHunt V3 SwapRouter, and has static methods for helping execute trades.
  */
 export abstract class SwapRouter {
-  public static INTERFACE: Interface = new Interface(ISwapRouter.abi)
+  public static INTERFACE: Interface = new Interface(CONSTANTS.constants.interfaces.SWAP_ROUTER_CONTRACT.interface.abi)
 
   /**
    * Cannot be constructed.
