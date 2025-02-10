@@ -14,7 +14,7 @@ import { ONE, ZERO } from './internalConstants'
 import { MethodParameters, toHex } from './utils/calldata'
 import { Interface } from '@ethersproject/abi'
 import { TypedDataDomain, TypedDataField } from '@ethersproject/abstract-signer'
-import INonfungiblePositionManager from './interfaces/INonfungiblePositionManager.json'
+import CONSTAMTS from '@storyhunt/default-list/build/storyhunt-default.constantlist.json'
 import { PermitOptions, SelfPermit } from './selfPermit'
 import { ADDRESS_ZERO } from './constants'
 import { Pool } from './entities'
@@ -196,7 +196,7 @@ export interface RemoveLiquidityOptions {
 }
 
 export abstract class NonfungiblePositionManager {
-  public static INTERFACE: Interface = new Interface(INonfungiblePositionManager.abi)
+  public static INTERFACE: Interface = new Interface(CONSTAMTS.constants.interfaces.NFT_POSITION_MANAGER_CONTRACT.interface.abi)
 
   /**
    * Cannot be constructed.

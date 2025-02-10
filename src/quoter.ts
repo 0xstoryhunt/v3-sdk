@@ -1,8 +1,7 @@
 import { Interface } from '@ethersproject/abi'
 import { BigintIsh, Currency, CurrencyAmount, TradeType } from '@storyhunt/sdk-core'
 import { encodeRouteToPath, MethodParameters, toHex } from './utils'
-import IQuoter from './interfaces/IQuoter.json'
-import IQuoterV2 from './interfaces/IQuoterV2.json'
+import CONSTANTS from '@storyhunt/default-list/build/storyhunt-default.constantlist.json'
 import { Route } from './entities'
 import invariant from 'tiny-invariant'
 import { FeeAmount } from './constants'
@@ -34,8 +33,8 @@ interface BaseQuoteParams {
  * calldata needed to call the quoter contract.
  */
 export abstract class SwapQuoter {
-  public static V1INTERFACE: Interface = new Interface(IQuoter.abi)
-  public static V2INTERFACE: Interface = new Interface(IQuoterV2.abi)
+  public static V1INTERFACE: Interface = new Interface(CONSTANTS.constants.interfaces.QUOTER_CONTRACT.interface.abi)
+  public static V2INTERFACE: Interface = new Interface(CONSTANTS.constants.interfaces.QUOTERV2_CONTRACT.interface.abi)
 
   /**
    * Produces the on-chain method name of the appropriate function within QuoterV2,

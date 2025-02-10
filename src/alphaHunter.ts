@@ -3,7 +3,7 @@ import invariant from 'tiny-invariant'
 import { ADDRESS_ZERO } from './constants'
 import { Position } from './entities'
 import { Multicall } from './multicall'
-import alphaHunterV3Abi from './interfaces/IAlphaHunterV3.json'
+import CONSTANTS from '@storyhunt/default-list/build/storyhunt-default.constantlist.json'
 import { ONE, ZERO } from './internalConstants'
 import {
   AddLiquidityOptions,
@@ -28,8 +28,8 @@ interface HarvestOptions {
 }
 
 export abstract class AlphaHunterV3 {
-  public static ABI = alphaHunterV3Abi
-  public static INTERFACE: Interface = new Interface(alphaHunterV3Abi.abi)
+  public static ABI = CONSTANTS.constants.interfaces.ALPHA_HUNTER_CONTRACT.interface.abi
+  public static INTERFACE: Interface = new Interface(CONSTANTS.constants.interfaces.ALPHA_HUNTER_CONTRACT.interface.abi)
 
   /**
    * Cannot be constructed.

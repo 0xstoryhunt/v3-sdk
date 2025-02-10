@@ -1,6 +1,6 @@
 import JSBI from 'jsbi'
 import { Interface } from '@ethersproject/abi'
-import IPeripheryPaymentsWithFee from './interfaces/IPeripheryPaymentsWithFee.json'
+import CONSTANTS from '@storyhunt/default-list/build/storyhunt-default.constantlist.json'
 import { Percent, Token, validateAndParseAddress } from '@storyhunt/sdk-core'
 import { toHex } from './utils/calldata'
 
@@ -17,7 +17,7 @@ export interface FeeOptions {
 }
 
 export abstract class Payments {
-  public static INTERFACE: Interface = new Interface(IPeripheryPaymentsWithFee.abi)
+  public static INTERFACE: Interface = new Interface(CONSTANTS.constants.interfaces.PERIHERY_PAYMENT_WITH_FEE_CONTRACT.interface.abi)
 
   /**
    * Cannot be constructed.
