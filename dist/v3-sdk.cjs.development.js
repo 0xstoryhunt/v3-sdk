@@ -3282,9 +3282,9 @@ var SwapRouter = /*#__PURE__*/function () {
     for (var _iterator3 = _createForOfIteratorHelperLoose(sweepableTokens), _step3; !(_step3 = _iterator3()).done;) {
       var sweepableToken = _step3.value;
       if (!!options.fee) {
-        calldatas.push(Payments.encodeSweepToken(sweepableToken.token, sweepableToken.amount, recipient, options.fee));
+        calldatas.push(Payments.encodeSweepToken(sweepableToken.token, JSBI.BigInt(0), recipient, options.fee));
       } else {
-        calldatas.push(Payments.encodeSweepToken(sweepableToken.token, sweepableToken.amount, recipient));
+        calldatas.push(Payments.encodeSweepToken(sweepableToken.token, JSBI.BigInt(0), recipient));
       }
     }
     // refund
