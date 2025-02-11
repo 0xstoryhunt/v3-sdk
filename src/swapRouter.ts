@@ -248,9 +248,9 @@ export abstract class SwapRouter {
 
     for (const sweepableToken of sweepableTokens) {
       if (!!options.fee) {
-        calldatas.push(Payments.encodeSweepToken(sweepableToken!.token, sweepableToken!.amount, recipient, options.fee))
+        calldatas.push(Payments.encodeSweepToken(sweepableToken!.token, JSBI.BigInt(0), recipient, options.fee))
       } else {
-        calldatas.push(Payments.encodeSweepToken(sweepableToken!.token, sweepableToken!.amount, recipient))
+        calldatas.push(Payments.encodeSweepToken(sweepableToken!.token, JSBI.BigInt(0), recipient))
       }
     }
 
